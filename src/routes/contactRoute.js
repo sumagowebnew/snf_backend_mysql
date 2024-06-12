@@ -28,7 +28,7 @@ router.get("/get", async (req, res) => {
     }
 });
 
-router.post('/create', verifyToken,
+router.post('/post', verifyToken,
     [
         body('name').notEmpty().withMessage('Name cannot be empty'),
         body('email').notEmpty().withMessage('email cannot be empty'),
@@ -47,7 +47,7 @@ router.post('/create', verifyToken,
 );
 
 
-router.put("/update/:id", verifyToken,
+router.put("/put/:id", verifyToken,
     upload.fields([{ name: 'imageUrl', maxCount: 1 }]),
     async (req, res) => {
         try {

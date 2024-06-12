@@ -15,43 +15,43 @@ try {
   app.use("/article_on_snf", articleRoute)
 
   const awardRoute = require("./src/routes/awardRoute")
-  app.use("/award", awardRoute)
+  app.use("/awards_recognation", awardRoute)
 
   const birthdayRoute = require("./src/routes/birthdayRoutes")
-  app.use("/birthday", birthdayRoute)
+  app.use("/OnGoingProject_Birthday_Celebrations", birthdayRoute)
 
   const homecarsoalRoute = require("./src/routes/homecarsoalRoute")
-  app.use("/homecarsoal", homecarsoalRoute)
+  app.use("/carrosal", homecarsoalRoute)
 
   const cleanwaterRoute = require("./src/routes/cleanwaterRoute")
-  app.use("/cleanwater", cleanwaterRoute)
+  app.use("/OnGoingProject_Clean_Water_Project", cleanwaterRoute)
 
   const eduactionalfacilitiesRoute = require("./src/routes/eduactionalfacilitiesRoute")
-  app.use("/eduactionalfacilities", eduactionalfacilitiesRoute)
+  app.use("/OnGoingProject_Educational_Facilities", eduactionalfacilitiesRoute)
 
   const envconservationRoute = require("./src/routes/envconservationRoute")
-  app.use("/envconservation", envconservationRoute)
+  app.use("/OnGoingProject_Environmental_Conservation", envconservationRoute)
 
   const medecalprojectRoute = require("./src/routes/medecalprojectRoute")
-  app.use("/medecalproject", medecalprojectRoute)
+  app.use("/OnGoingProject_Health_MedicalProjects", medecalprojectRoute)
 
   const shahidjawanRoute = require("./src/routes/shahidjawanRoute")
-  app.use("/shahidjawan", shahidjawanRoute)
+  app.use("/OnGoingProject_Shahid_Jawan_Fund", shahidjawanRoute)
 
   const teamfounderparticipantRoute = require("./src/routes/teamfounderparticipantRoute")
-  app.use("/teamfounderparticipant", teamfounderparticipantRoute)
+  app.use("/founderparticipates", teamfounderparticipantRoute)
 
   const teammentorRoute = require("./src/routes/teammentorRoute")
-  app.use("/teammentor", teammentorRoute)
+  app.use("/mentors", teammentorRoute)
 
   const nriparticipantRoute = require("./src/routes/nriparticipantRoute")
-  app.use("/nriparticipant", nriparticipantRoute)
+  app.use("/NRI_Participants", nriparticipantRoute)
 
   const stateparticipantRoute = require("./src/routes/stateparticipantRoute")
   app.use("/stateparticipant", stateparticipantRoute)
 
   const newspaperRoute = require("./src/routes/newspaperRoute")
-  app.use("/newspaper", newspaperRoute)
+  app.use("/snf_in_news_papers", newspaperRoute)
 
   const home2cardsRoute = require("./src/routes/home2cardsRoute")
   app.use("/home2cards", home2cardsRoute)
