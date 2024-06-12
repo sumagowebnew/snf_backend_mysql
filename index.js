@@ -11,6 +11,7 @@ app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
 
 // Routes
 try {
+  
   const articleRoute = require("./src/routes/articleRoute")
   app.use("/article_on_snf", articleRoute)
 
