@@ -59,7 +59,13 @@ try {
   const home4cardsRoute = require("./src/routes/home4cardsRoute")
   app.use("/home4cards", home4cardsRoute)
 
+  
+  const homemediaRoute = require("./src/routes/homeMediaRoute")
+  app.use("/homemedia", homemediaRoute)
 
+  const homesupportsRoute = require("./src/routes/homesupportsRoute")
+  app.use("/supporter", homesupportsRoute)
+  
   const contactRoute = require("./src/routes/contactRoute")
   app.use("/contact", contactRoute)
 
