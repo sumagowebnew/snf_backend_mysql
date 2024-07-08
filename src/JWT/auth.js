@@ -2,7 +2,8 @@ const jwt = require("jsonwebtoken");
 const env = require("dotenv").config();
 
 function verifyToken(req, res, next) {
-  const token = req.headers["authorization"];
+ 
+  const token = req.headers.authorization;
 
   if (!token || !token.startsWith("Bearer ")) {
     return res.status(401).json({ message: "Unauthorized" });
