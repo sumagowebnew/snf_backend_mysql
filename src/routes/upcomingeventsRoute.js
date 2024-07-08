@@ -1,43 +1,45 @@
 const express = require("express");
 const { body } = require("express-validator");
 const {
-  getbirthdayRecord,
-  createbirthdayRecord,
-  updatebirthdayRecord,
-  deletebirthdayRecord,
-} = require("../controllers/birthdayController");
+  getupcomingeventsRecord,
+  createupcomingeventsRecord,
+  updateupcomingeventsRecord,
+  deleteupcomingeventsRecord,
+} = require("../controllers/upcomingeventsControler");
 const multer = require("multer");
-const { upload } = require("../controllers/birthdayController");
+const { upload } = require("../controllers/upcomingeventsControler");
 const verifyToken = require("../JWT/auth");
 
 const router = express.Router();
 
 router.get("/find", verifyToken, async (req, res) => {
     try {
-        await getbirthdayRecord(req, res);
+        await getupcomingeventsRecord(req, res);
     } catch (error) {
-        console.error("Error in getbirthdayRecord:", error);
+        console.error("Error in getupcomingeventsRecord:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });
 router.get("/get", async (req, res) => {
     try {
-        await getbirthdayRecord(req, res);
+        await getupcomingeventsRecord(req, res);
     } catch (error) {
-        console.error("Error in getbirthdayRecord:", error);
+        console.error("Error in getupcomingeventsRecord:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });
 
 router.post('/post', verifyToken,
     upload.fields([{ name: 'imageUrl', maxCount: 1 }]),
-    [        body('name').notEmpty().withMessage('Name cannot be empty'),
+    [
+        body('ProjectTitle').notEmpty().withMessage('Name cannot be empty'),
+        body('Paragraph	').notEmpty().withMessage('Name cannot be empty'),
           ],
     async (req, res) => {
         try {
-            await createbirthdayRecord(req, res);
+            await createupcomingeventsRecord(req, res);
         } catch (error) {
-            console.error("Error in createbirthdayRecord:", error);
+            console.error("Error in createupcomingeventsRecord:", error);
             res.status(500).json({ error: "Internal server error" });
         }
     }
@@ -48,9 +50,9 @@ router.put("/put/:id", verifyToken,
     upload.fields([{ name: 'imageUrl', maxCount: 1 }]),
     async (req, res) => {
         try {
-            await updatebirthdayRecord(req, res);
+            await updateupcomingeventsRecord(req, res);
         } catch (error) {
-            console.error("Error in updatebirthdayRecord:", error);
+            console.error("Error in updateupcomingeventsRecord:", error);
             res.status(500).json({ error: "Internal server error" });
         }
     }
@@ -58,9 +60,9 @@ router.put("/put/:id", verifyToken,
 
 router.delete("/delete/:id", verifyToken, async (req, res) => {
     try {
-        await deletebirthdayRecord(req, res);
+        await deleteupcomingeventsRecord(req, res);
     } catch (error) {
-        console.error("Error in deletebirthdayRecord:", error);
+        console.error("Error in deleteupcomingeventsRecord:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });

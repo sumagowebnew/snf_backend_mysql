@@ -69,6 +69,12 @@ try {
   const contactRoute = require("./src/routes/contactRoute")
   app.use("/contact", contactRoute)
 
+  const upcomingeventsRoute = require("./src/routes/upcomingeventsRoute")
+  app.use("/upcomingeventsRoute", upcomingeventsRoute)
+
+  const upcomingeventstitleRoute = require("./src/routes/upcomingeventstitleRoute")
+  app.use("/upcomingeventstitleRoute", upcomingeventstitleRoute)
+
   const loginRoutes = require("./src/routes/userRoutes");
   app.use("/auth", loginRoutes);
 

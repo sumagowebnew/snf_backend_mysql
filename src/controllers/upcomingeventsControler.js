@@ -2,7 +2,7 @@
 const { validationResult } = require("express-validator");
 const path = require("path");
 const fs = require("fs");
-const recordModel = require("../models/homecarosoualModel");
+const recordModel = require("../models/upcomingevents");
 const multer = require("multer");
 const env = require("dotenv").config();
 
@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-function gethomecarsoalRecord(req, res) {
+function getupcomingeventsRecord(req, res) {
   try {
     recordModel.getAllRecords((err, results) => {
       if (err) {
@@ -34,8 +34,6 @@ function gethomecarsoalRecord(req, res) {
         return res.status(500).json({ error: "Internal Server Error" });
       }
       const modifiedResults = results.map((item) => {
-        console.log("process.env.serverURL", process.env.serverURL);
-        console.log("item.imageUrl", item.imageUrl);
         // Add a new property called 'modified' with value true
         return {
           id: item.id,
@@ -48,12 +46,12 @@ function gethomecarsoalRecord(req, res) {
       res.json(modifiedResults);
     });
   } catch (error) {
-    console.error("Error in gethomecarsoalRecord:", error);
+    console.error("Error in getupcomingeventsRecord:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-function createhomecarsoalRecord(req, res) {
+function createupcomingeventsRecord(req, res) {
   try {
     const recordData = req.body;
     const imgFile = req.files["imageUrl"][0]; 
@@ -69,12 +67,12 @@ function createhomecarsoalRecord(req, res) {
         .json({ message: "Record created successfully", result: recordData });
     });
   } catch (error) {
-    console.error("Error in createhomecarsoalRecord:", error);
+    console.error("Error in createupcomingeventsRecord:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-function updatehomecarsoalRecord(req, res) {
+function updateupcomingeventsRecord(req, res) {
   try {
     const { id } = req.params;
     const recordData = req.body;
@@ -93,12 +91,12 @@ function updatehomecarsoalRecord(req, res) {
       res.json({ message: "Record updated successfully" });
     });
   } catch (error) {
-    console.error("Error in updatehomecarsoalRecord:", error);
+    console.error("Error in updateupcomingeventsRecord:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-function deletehomecarsoalRecord(req, res) {
+function deleteupcomingeventsRecord(req, res) {
   try {
     const { id } = req.params;
     recordModel.deleteRecord(id, (err, result) => {
@@ -109,15 +107,15 @@ function deletehomecarsoalRecord(req, res) {
       res.send("Record deleted successfully");
     });
   } catch (error) {
-    console.error("Error in deletehomecarsoalRecord:", error);
+    console.error("Error in deleteupcomingeventsRecord:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
 module.exports = {
-  gethomecarsoalRecord,
-  createhomecarsoalRecord,
-  updatehomecarsoalRecord,
-  deletehomecarsoalRecord,
+  getupcomingeventsRecord,
+  createupcomingeventsRecord,
+  updateupcomingeventsRecord,
+  deleteupcomingeventsRecord,
   upload,
 };
