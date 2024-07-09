@@ -30,7 +30,7 @@ router.get("/get", async (req, res) => {
 
 router.post('/post', verifyToken,
     [
-        body('ProjectTitle').notEmpty().withMessage('Name cannot be empty'),
+        body('name').notEmpty().withMessage('name cannot be empty'),
       
           ],
     async (req, res) => {
