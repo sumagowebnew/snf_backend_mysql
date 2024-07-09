@@ -33,7 +33,8 @@ router.post('/post', verifyToken,
     upload.fields([{ name: 'imageUrl', maxCount: 1 }]),
     [
         body('name').notEmpty().withMessage('Name cannot be empty'),
-        body('para').notEmpty().withMessage('Name cannot be empty'),
+        body('para').notEmpty().withMessage('para cannot be empty'),
+        body('city').notEmpty().withMessage('city cannot be empty'),
           ],
     async (req, res) => {
         try {

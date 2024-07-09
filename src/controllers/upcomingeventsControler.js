@@ -38,6 +38,9 @@ function getupcomingeventsRecord(req, res) {
         return {
           id: item.id,
           name: item.name,
+          category:item.category,
+          ProjectTitle:item.ProjectTitle,
+          Paragraph:item.Paragraph,
           imageUrl: `${process.env.serverURL}${item.imageUrl}`,
         };
       });

@@ -39,6 +39,7 @@ function gethome4cardsRecord(req, res) {
           id: item.id,
           name: item.name,
           para: item.para,
+          city: item.city,
           imageUrl: `${process.env.serverURL}${item.imageUrl}`,
         };
       });

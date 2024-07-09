@@ -33,6 +33,7 @@ router.post('/post', verifyToken,
     upload.fields([{ name: 'imageUrl', maxCount: 1 }]),
     [
         body('ProjectTitle').notEmpty().withMessage('Name cannot be empty'),
+        body('category').notEmpty().withMessage('category cannot be empty'),
         body('Paragraph	').notEmpty().withMessage('Name cannot be empty'),
           ],
     async (req, res) => {
