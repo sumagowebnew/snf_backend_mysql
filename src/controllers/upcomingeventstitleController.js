@@ -37,11 +37,8 @@ function getupcomingeventstitleRecord(req, res) {
         // Add a new property called 'modified' with value true
         return {
           id: item.id,
-          name: item.name,
-          upcomingeventstitle: item.upcomingeventstitle,
-          subject: item.subject,
-          message: item.message,
-          email: item.email,
+          ProjectTitle: item.ProjectTitle,
+        
         };
       });
 
