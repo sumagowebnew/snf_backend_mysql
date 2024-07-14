@@ -10,16 +10,55 @@ function getAllRecords(callback) {
 
 function createRecord(recordData, callback) {
     try {
-        db.query('INSERT INTO upcomingevents SET ?', recordData, callback);
+        const { mainImage, images, ...eventData } = recordData;
+
+        db.query('INSERT INTO upcomingevents SET ?', eventData, (err, result) => {
+            if (err) return callback(err, null);
+
+            const eventId = result.insertId;
+            const mainImageUrl = mainImage ? mainImage[0].originalname : null;
+
+            db.query('UPDATE upcomingevents SET main_image_url = ? WHERE id = ?', [mainImageUrl, eventId], (err, result) => {
+                if (err) return callback(err, null);
+                
+                if (images && images.length > 0) {
+                    const imageValues = images.map(image => [eventId, image.originalname, image.title]);
+                    db.query('INSERT INTO event_images (event_id, images, imageTitles) VALUES ?', [imageValues], callback);
+                } else {
+                    callback(null, result);
+                }
+            });
+        });
     } catch (error) {
         callback(error, null);
     }
 }
 
-
 function updateRecord(id, recordData, callback) {
     try {
-        db.query('UPDATE upcomingevents SET ? WHERE id = ?', [recordData, id], callback);
+        const { mainImage, images, ...eventData } = recordData;
+
+        db.query('UPDATE upcomingevents SET ? WHERE id = ?', [eventData, id], (err, result) => {
+            if (err) return callback(err, null);
+
+            if (mainImage) {
+                const mainImageUrl = mainImage[0].originalname;
+                db.query('UPDATE upcomingevents SET main_image_url = ? WHERE id = ?', [mainImageUrl, id], (err, result) => {
+                    if (err) return callback(err, null);
+                });
+            }
+
+            if (images && images.length > 0) {
+                db.query('DELETE FROM event_images WHERE event_id = ?', id, (err, result) => {
+                    if (err) return callback(err, null);
+                    
+                    const imageValues = images.map(image => [id, image.originalname, image.title]);
+                    db.query('INSERT INTO event_images (event_id, images, imageTitles) VALUES ?', [imageValues], callback);
+                });
+            } else {
+                callback(null, result);
+            }
+        });
     } catch (error) {
         callback(error, null);
     }
