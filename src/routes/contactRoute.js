@@ -19,7 +19,7 @@ router.get("/find", verifyToken, async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 });
-router.get("/get", async (req, res) => {
+router.get("/get", verifyToken, async (req, res) => {
     try {
         await getcontactRecord(req, res);
     } catch (error) {
@@ -28,7 +28,7 @@ router.get("/get", async (req, res) => {
     }
 });
 
-router.post('/post', verifyToken,
+router.post('/post',
     [
         body('name').notEmpty().withMessage('Name cannot be empty'),
         body('email').notEmpty().withMessage('email cannot be empty'),
