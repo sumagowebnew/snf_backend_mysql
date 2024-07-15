@@ -28,9 +28,9 @@ router.get("/get", async (req, res) => {
     }
 });
 
-router.post('/post',
+router.post('/post', verifyToken,
     [
-        body('category').notEmpty().withMessage('categories cannot be empty'),
+        body('name').notEmpty().withMessage('name cannot be empty'),
       
           ],
     async (req, res) => {
