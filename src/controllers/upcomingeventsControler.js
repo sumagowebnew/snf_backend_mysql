@@ -28,29 +28,26 @@ function getupcomingeventsRecord(req, res) {
         console.error("Error fetching records:", err);
         return res.status(500).json({ error: "Internal Server Error" });
       }
-      const modifiedResults = results.map((item) => {
-        return {
-          id: item.id,
-          name: item.name,
-          category: item.category,
-          ProjectTitle: item.ProjectTitle,
-          Paragraph: item.Paragraph,
-          mainImageUrl: `${process.env.serverURL}${item.mainImage}`,
-          images: [], // Initialize an empty array for images
-        };
-      });
-
-      // Fetch associated images for each event
-      const promises = modifiedResults.map((result) => {
+      
+      const promises = results.map((item) => {
         return new Promise((resolve, reject) => {
-          db.query('SELECT * FROM event_images WHERE event_id = ?', result.id, (err, images) => {
+          db.query('SELECT * FROM event_images WHERE event_id = ?', item.id, (err, images) => {
             if (err) return reject(err);
 
-            result.images = images.map(image => ({
-              imageUrl: `${process.env.serverURL}${image.images}`,
-              imageTitle: image.imageTitles,
-            }));
-            resolve(result);
+            const modifiedItem = {
+              id: item.id,
+              name: item.name,
+              category: item.category,
+              ProjectTitle: item.ProjectTitle,
+              Paragraph: item.Paragraph,
+              mainImageUrl: `${process.env.serverURL}${item.mainImage}`,
+              images: images.map(image => ({
+                imageUrl: `${process.env.serverURL}${image.images}`,
+                imageTitle: image.imageTitles,
+              })),
+            };
+
+            resolve(modifiedItem);
           });
         });
       });
@@ -69,6 +66,7 @@ function getupcomingeventsRecord(req, res) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
+
 
 function createupcomingeventsRecord(req, res) {
   try {
