@@ -42,7 +42,7 @@ function getupcomingeventsRecord(req, res) {
               Paragraph: item.Paragraph,
               mainImageUrl: `${process.env.serverURL}${item.mainImage}`,
               images: images.map(image => ({
-                imageUrl: `${process.env.serverURL}${image.images}`,
+                imageUrl: `${image.images}`,
                 imageTitle: image.imageTitles,
               })),
             };
