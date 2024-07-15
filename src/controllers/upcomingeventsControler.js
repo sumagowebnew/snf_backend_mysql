@@ -180,7 +180,7 @@ const addImagesByCategory = (req, res) => {
       if (images && images.length > 0) {
         const subImagesData = images.map((image, index) => [
           eventId,
-          `${process.env.serverURL}${image.filename}`, // Assuming 'filename' is the correct property
+          `${process.env.serverURL}${image.filename}`, // Adjusted to correctly form the image URL
           imageTitles[index] || null,
         ]);
 
