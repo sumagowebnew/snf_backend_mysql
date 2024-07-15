@@ -69,8 +69,12 @@ try {
   const contactRoute = require("./src/routes/contactRoute")
   app.use("/contact", contactRoute)
 
-  const upcomingeventsRoute = require("./src/routes/upcomingeventsRoute")
-  app.use("/upcomingeventsRoute", upcomingeventsRoute)
+  const eventImagesRoutes = require("./src/routes/eventImagesRoutes")
+  app.use("/eventImagesRoutes", eventImagesRoutes)
+
+  const upcomingevents = require("./src/routes/upcomingevents")
+  app.use("/upcomingevents", upcomingevents)
+  
 
   const upcomingeventstitleRoute = require("./src/routes/upcomingeventstitleRoute")
   app.use("/upcomingeventstitleRoute", upcomingeventstitleRoute)
