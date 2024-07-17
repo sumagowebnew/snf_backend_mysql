@@ -28,7 +28,7 @@ function getupcomingeventsRecord(req, res) {
         console.error("Error fetching records:", err);
         return res.status(500).json({ error: "Internal Server Error" });
       }
-      
+
       const promises = results.map((item) => {
         return new Promise((resolve, reject) => {
           db.query('SELECT * FROM event_images WHERE event_id = ?', item.id, (err, images) => {
@@ -71,7 +71,7 @@ function getupcomingeventsRecord(req, res) {
 function createupcomingeventsRecord(req, res) {
   try {
     const recordData = req.body;
-    const mainImage = req.files["mainImage"] ;
+    const mainImage = req.files["mainImage"];
     const images = req.files["images"] || [];
     const imageTitles = req.body.imageTitles ? req.body.imageTitles.split(',') : [];
 
@@ -198,10 +198,34 @@ const addImagesByCategory = (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+function  getAllImagesData  (req, res)  {
+  try {
+    db.query('SELECT * FROM event_images', (err, results) => {
+      if (err) {
+        console.error("Error fetching image data:", err);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
 
-module.exports = { addImagesByCategory };
+      const imagesData = results.map(image => ({
+        id: image.id,
+        eventId: image.event_id,
+        imageUrl: `${process.env.serverURL}${image.images}`,
+        imageTitle: image.imageTitles,
+      }));
+
+      res.json(imagesData);
+    });
+  } catch (error) {
+    console.error("Error in getAllImagesData:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+module.exports = {};
 
 module.exports = {
+  addImagesByCategory, getAllImagesData,
   getupcomingeventsRecord,
   createupcomingeventsRecord,
   updateupcomingeventsRecord,

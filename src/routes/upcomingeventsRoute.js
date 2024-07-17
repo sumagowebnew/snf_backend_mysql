@@ -6,7 +6,8 @@ const {
   updateupcomingeventsRecord,
   deleteupcomingeventsRecord,
   addImagesByCategory,
-  upload
+  upload,
+  getAllImagesData
 } = require("../controllers/upcomingeventsControler");
 const verifyToken = require("../JWT/auth");
 
@@ -24,6 +25,14 @@ router.get("/find", verifyToken, async (req, res) => {
 router.get("/get", async (req, res) => {
   try {
     await getupcomingeventsRecord(req, res);
+  } catch (error) {
+    console.error("Error in getupcomingeventsRecord:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+router.get("/getAllImagesData", verifyToken, async (req, res) => {
+  try {
+    await getAllImagesData(req, res);
   } catch (error) {
     console.error("Error in getupcomingeventsRecord:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -96,5 +105,6 @@ router.post('/addImagesByCategory',
     }
   }
 );
+
 
 module.exports = router;
