@@ -208,7 +208,7 @@ function  getAllImagesData  (req, res)  {
 
       const imagesData = results.map(image => ({
         id: image.id,
-        category: image.category,
+        eventId: image.event_id,
         images: `${image.images}`,
         imageTitle: image.imageTitles,
       }));
@@ -243,11 +243,20 @@ const deleteImageById = (req, res) => {
 };
 const updateImageById = (req, res) => {
   const { id } = req.params; // Assuming the image id is passed as a URL parameter
-  const { imageTitles } = req.body; // Assuming you receive updated image data
-  const images = req.files["images"]; // Accessing the 'images' property of req.files
+  const { imageTitles } = req.body; // Assuming you receive updated image titles
+  const images = req.files.images; // Accessing the 'images' property of req.files
 
   try {
-    db.query('UPDATE event_images SET images = ?, imageTitles = ? WHERE id = ?', [images, imageTitles, id], (err, result) => {
+    // Ensure images and imageTitles are provided
+    if (!images || !imageTitles) {
+      return res.status(400).json({ error: "Images and image titles are required" });
+    }
+
+    // Assuming images is an array of file objects, process them as needed
+    const imagePaths = images.map(image => `${process.env.serverURL}${image.filename}`); // Constructing image paths
+
+    // Update the database with new image paths and image titles
+    db.query('UPDATE event_images SET images = ?, imageTitles = ? WHERE id = ?', [imagePaths, imageTitles, id], (err, result) => {
       if (err) {
         console.error("Error updating image:", err);
         return res.status(500).json({ error: "Internal Server Error" });
