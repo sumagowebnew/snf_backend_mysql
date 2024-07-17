@@ -5,7 +5,7 @@ const {
   createupcomingeventsRecord,
   updateupcomingeventsRecord,
   deleteupcomingeventsRecord,
-  addImagesByCategory,updateImageData,
+  addImagesByCategory,deleteImageById,updateImageById,
   upload,
   getAllImagesData
 } = require("../controllers/upcomingeventsControler");
@@ -77,10 +77,34 @@ router.put(
     }
   }
 );
+router.put(
+  "/putImages/:id",
+  
+  upload.fields([
+    { name: "images", maxCount: 5 },
+  ]),
+  async (req, res) => {
+    try {
+      await updateImageById(req, res);
+    } catch (error) {
+      console.error("Error in updateupcomingeventsRecord:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+);
 
 router.delete("/delete/:id", verifyToken, async (req, res) => {
   try {
     await deleteupcomingeventsRecord(req, res);
+  } catch (error) {
+    console.error("Error in deleteupcomingeventsRecord:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.delete("/deleteImages/:id",  async (req, res) => {
+  try {
+    await deleteImageById(req, res);
   } catch (error) {
     console.error("Error in deleteupcomingeventsRecord:", error);
     res.status(500).json({ error: "Internal server error" });

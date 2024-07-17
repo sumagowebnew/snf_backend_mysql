@@ -208,7 +208,7 @@ function  getAllImagesData  (req, res)  {
 
       const imagesData = results.map(image => ({
         id: image.id,
-        eventId: image.event_id,
+        category: image.category,
         images: `${image.images}`,
         imageTitle: image.imageTitles,
       }));
@@ -217,6 +217,50 @@ function  getAllImagesData  (req, res)  {
     });
   } catch (error) {
     console.error("Error in getAllImagesData:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+const deleteImageById = (req, res) => {
+  const { id } = req.params; // Assuming the image id is passed as a URL parameter
+  
+  try {
+    db.query('DELETE FROM event_images WHERE id = ?', [id], (err, result) => {
+      if (err) {
+        console.error("Error deleting image:", err);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: "Image not found" });
+      }
+
+      res.status(200).json({ message: "Image deleted successfully", id: id });
+    });
+  } catch (error) {
+    console.error("Error in deleteImageById:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+const updateImageById = (req, res) => {
+  const { id } = req.params; // Assuming the image id is passed as a URL parameter
+  const { imageTitles } = req.body; // Assuming you receive updated image data
+  const images = req.files["images"]; // Accessing the 'images' property of req.files
+
+  try {
+    db.query('UPDATE event_images SET images = ?, imageTitles = ? WHERE id = ?', [images, imageTitles, id], (err, result) => {
+      if (err) {
+        console.error("Error updating image:", err);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: "Image not found" });
+      }
+
+      res.status(200).json({ message: "Image updated successfully", id: id });
+    });
+  } catch (error) {
+    console.error("Error in updateImageById:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -231,6 +275,6 @@ module.exports = {
   createupcomingeventsRecord,
   updateupcomingeventsRecord,
   deleteupcomingeventsRecord,
-  addImagesByCategory,
+  addImagesByCategory,deleteImageById,updateImageById,
   upload,
 };
