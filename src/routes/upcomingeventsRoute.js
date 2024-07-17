@@ -5,7 +5,7 @@ const {
   createupcomingeventsRecord,
   updateupcomingeventsRecord,
   deleteupcomingeventsRecord,
-  addImagesByCategory,
+  addImagesByCategory,updateImageData,
   upload,
   getAllImagesData
 } = require("../controllers/upcomingeventsControler");
@@ -30,7 +30,7 @@ router.get("/get", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-router.get("/getAllImagesData", verifyToken, async (req, res) => {
+router.get("/getAllImagesData",async (req, res) => {
   try {
     await getAllImagesData(req, res);
   } catch (error) {

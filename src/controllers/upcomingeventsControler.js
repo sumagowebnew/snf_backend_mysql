@@ -209,7 +209,7 @@ function  getAllImagesData  (req, res)  {
       const imagesData = results.map(image => ({
         id: image.id,
         eventId: image.event_id,
-        imageUrl: `${process.env.serverURL}${image.images}`,
+        images: `${process.env.serverURL}${image.images}`,
         imageTitle: image.imageTitles,
       }));
 
@@ -222,7 +222,7 @@ function  getAllImagesData  (req, res)  {
 };
 
 
-module.exports = {};
+
 
 module.exports = {
   addImagesByCategory, getAllImagesData,
