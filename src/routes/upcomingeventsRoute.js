@@ -5,7 +5,7 @@ const {
   createupcomingeventsRecord,
   updateupcomingeventsRecord,
   deleteupcomingeventsRecord,
-  addImagesByCategory,updateImagesByCategory,deleteImagesByCategory,getImagesByCategory,
+  addImagesByCategory,
   upload
 } = require("../controllers/upcomingeventsControler");
 const verifyToken = require("../JWT/auth");
@@ -35,7 +35,7 @@ router.post(
 
   upload.fields([
     { name: "mainImage", maxCount: 1 },
-
+  
   ]),
   [
     body("ProjectTitle").notEmpty().withMessage("ProjectTitle cannot be empty"),
@@ -96,19 +96,5 @@ router.post('/addImagesByCategory',
     }
   }
 );
-router.put('/updateImagesByCategory/:id',
-  [
-    body("imageTitles").notEmpty().withMessage("Image titles cannot be empty"),
-    body("category").notEmpty().withMessage("Category cannot be empty"),
-  ],
-  upload.fields([{ name: "images", maxCount: 5 }]),
-  updateImagesByCategory
-);
-
-// Delete images by category
-router.delete('/deleteImagesByCategory/:id', deleteImagesByCategory);
-
-// Get images by category
-router.get('/getImagesByCategory', getImagesByCategory);
 
 module.exports = router;

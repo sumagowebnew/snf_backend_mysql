@@ -28,7 +28,7 @@ function getupcomingeventsRecord(req, res) {
         console.error("Error fetching records:", err);
         return res.status(500).json({ error: "Internal Server Error" });
       }
-
+      
       const promises = results.map((item) => {
         return new Promise((resolve, reject) => {
           db.query('SELECT * FROM event_images WHERE event_id = ?', item.id, (err, images) => {
@@ -71,7 +71,7 @@ function getupcomingeventsRecord(req, res) {
 function createupcomingeventsRecord(req, res) {
   try {
     const recordData = req.body;
-    const mainImage = req.files["mainImage"];
+    const mainImage = req.files["mainImage"] ;
     const images = req.files["images"] || [];
     const imageTitles = req.body.imageTitles ? req.body.imageTitles.split(',') : [];
 
@@ -198,51 +198,8 @@ const addImagesByCategory = (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-const updateImagesByCategory = async (req, res) => {
-  const { id } = req.params;
-  const { imageTitles, category } = req.body;
-  const images = req.files ? req.files.images : null;
 
-  // Update images and other details in the database (replace with actual DB logic)
-  try {
-    // Example: Update in database
-    await ImageModel.findByIdAndUpdate(id, { imageTitles, category, images });
-
-    res.status(200).json({ message: 'Images updated successfully' });
-  } catch (error) {
-    console.error("Error in updateImagesByCategory:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-const deleteImagesByCategory = async (req, res) => {
-  const { id } = req.params;
-
-  // Delete images from the database (replace with actual DB logic)
-  try {
-    // Example: Delete from database
-    await ImageModel.findByIdAndDelete(id);
-
-    res.status(200).json({ message: 'Images deleted successfully' });
-  } catch (error) {
-    console.error("Error in deleteImagesByCategory:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-const getImagesByCategory = async (req, res) => {
-
-  // Retrieve images from the database (replace with actual DB logic)
-  try {
-    const images = await ImageModel.find();
-
-    res.status(200).json({ message: 'Images retrieved successfully', images });
-  } catch (error) {
-    console.error("Error in getImagesByCategory:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
-
+module.exports = { addImagesByCategory };
 
 module.exports = {
   getupcomingeventsRecord,
@@ -252,5 +209,3 @@ module.exports = {
   addImagesByCategory,
   upload,
 };
-module.exports = { addImagesByCategory,updateImagesByCategory,deleteImagesByCategory,getImagesByCategory };
-
