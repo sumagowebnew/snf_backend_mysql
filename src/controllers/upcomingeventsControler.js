@@ -209,7 +209,7 @@ function  getAllImagesData  (req, res)  {
       const imagesData = results.map(image => ({
         id: image.id,
         eventId: image.event_id,
-        images: `${process.env.serverURL}${image.images}`,
+        images: `${image.images}`,
         imageTitle: image.imageTitles,
       }));
 
@@ -220,6 +220,7 @@ function  getAllImagesData  (req, res)  {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 
 
