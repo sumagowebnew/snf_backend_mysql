@@ -180,9 +180,10 @@ const addImagesByCategory = (req, res) => {
           eventId,
           `${process.env.serverURL}${image.filename}`, // Adjusted to correctly form the image URL
           imageTitles[index] || null,
+          category // Add the category to the array
         ]);
 
-        db.query('INSERT INTO event_images (event_id, images, imageTitles) VALUES ?', [subImagesData], (err, result) => {
+        db.query('INSERT INTO event_images (event_id, images, imageTitles, category) VALUES ?', [subImagesData], (err, result) => {
           if (err) {
             console.error("Error inserting images:", err);
             return res.status(500).json({ error: "Internal Server Error" });
@@ -198,6 +199,7 @@ const addImagesByCategory = (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 function  getAllImagesData  (req, res)  {
   try {
     db.query('SELECT * FROM event_images', (err, results) => {
@@ -211,6 +213,7 @@ function  getAllImagesData  (req, res)  {
         eventId: image.event_id,
         images: `${image.images}`,
         imageTitle: image.imageTitles,
+        category:image.category
       }));
 
       res.json(imagesData);
