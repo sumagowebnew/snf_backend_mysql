@@ -40,7 +40,7 @@ function getupcomingeventsRecord(req, res) {
               category: item.category,
               ProjectTitle: item.ProjectTitle,
               Paragraph: item.Paragraph,
-              subtitle:item.subtitle,
+              subtitle: item.subtitle,
               mainImageUrl: `${process.env.serverURL}${item.mainImage}`,
               images: images.map(image => ({
                 imageUrl: `${image.images}`,
@@ -72,8 +72,8 @@ function getupcomingeventsRecord(req, res) {
 function createupcomingeventsRecord(req, res) {
   try {
     const recordData = req.body;
-    const subtitle = req.body;
     const mainImage = req.files["mainImage"];
+
     const images = req.files["images"] || [];
     const imageTitles = req.body.imageTitles ? req.body.imageTitles.split(',') : [];
 
@@ -82,7 +82,7 @@ function createupcomingeventsRecord(req, res) {
       Paragraph: recordData.Paragraph,
       category: recordData.category,
       mainImage: mainImage,
-      subtitle:subtitle
+      subtitle: recordData.subtitle
     };
 
     recordModel.createRecord(newRecord, (err, result) => {
@@ -203,7 +203,7 @@ const addImagesByCategory = (req, res) => {
   }
 };
 
-function  getAllImagesData  (req, res)  {
+function getAllImagesData(req, res) {
   try {
     db.query('SELECT * FROM event_images', (err, results) => {
       if (err) {
@@ -216,7 +216,7 @@ function  getAllImagesData  (req, res)  {
         eventId: image.event_id,
         images: `${image.images}`,
         imageTitle: image.imageTitles,
-        category:image.category
+        category: image.category
       }));
 
       res.json(imagesData);
@@ -228,7 +228,7 @@ function  getAllImagesData  (req, res)  {
 };
 const deleteImageById = (req, res) => {
   const { id } = req.params; // Assuming the image id is passed as a URL parameter
-  
+
   try {
     db.query('DELETE FROM event_images WHERE id = ?', [id], (err, result) => {
       if (err) {
@@ -290,6 +290,6 @@ module.exports = {
   createupcomingeventsRecord,
   updateupcomingeventsRecord,
   deleteupcomingeventsRecord,
-  addImagesByCategory,deleteImageById,updateImageById,
+  addImagesByCategory, deleteImageById, updateImageById,
   upload,
 };
