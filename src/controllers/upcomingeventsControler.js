@@ -72,6 +72,7 @@ function getupcomingeventsRecord(req, res) {
 function createupcomingeventsRecord(req, res) {
   try {
     const recordData = req.body;
+    const subtitle = req.body;
     const mainImage = req.files["mainImage"];
     const images = req.files["images"] || [];
     const imageTitles = req.body.imageTitles ? req.body.imageTitles.split(',') : [];
