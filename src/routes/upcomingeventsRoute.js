@@ -50,6 +50,7 @@ router.post(
     body("ProjectTitle").notEmpty().withMessage("ProjectTitle cannot be empty"),
     body("category").notEmpty().withMessage("Category cannot be empty"),
     body("Paragraph").notEmpty().withMessage("Paragraph cannot be empty"),
+    body("subtitle").notEmpty().withMessage("subtitle cannot be empty"),
   ],
   async (req, res) => {
     try {

@@ -80,6 +80,7 @@ function createupcomingeventsRecord(req, res) {
       Paragraph: recordData.Paragraph,
       category: recordData.category,
       mainImage: mainImage,
+      subtitle:subtitle
     };
 
     recordModel.createRecord(newRecord, (err, result) => {
