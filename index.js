@@ -13,6 +13,8 @@ app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
 try {
   const articleRoute = require("./src/routes/articleRoute")
   app.use("/article_on_snf", articleRoute)
+  const reportRoute = require("./src/routes/reportsRoute")
+  app.use("/reportRoute", reportRoute)
 
   const awardRoute = require("./src/routes/awardRoute")
   app.use("/awards_recognation", awardRoute)
