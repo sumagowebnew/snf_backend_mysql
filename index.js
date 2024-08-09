@@ -46,6 +46,9 @@ try {
   const teammentorRoute = require("./src/routes/teammentorRoute")
   app.use("/mentors", teammentorRoute)
 
+  const wellwishers = require("./src/routes/wellwishersRoute")
+  app.use("/wellwishers", wellwishers)
+
   const nriparticipantRoute = require("./src/routes/nriparticipantRoute")
   app.use("/NRI_Participants", nriparticipantRoute)
 
