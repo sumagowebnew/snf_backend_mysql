@@ -346,13 +346,7 @@ const addInfoByCategory = (req, res) => {
     const { category, infoTitles, infoDescriptions } = req.body;
 
     // Validate inputs
-    if (!category) {
-      return res.status(400).json({ error: "Category is required" });
-    }
 
-    if (typeof infoTitles !== 'string' || typeof infoDescriptions !== 'string') {
-      return res.status(400).json({ error: "infoTitles and infoDescriptions must be strings" });
-    }
 
     // Split the infoTitles and infoDescriptions
     const infoTitlesArray = infoTitles.split(',');
