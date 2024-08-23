@@ -345,21 +345,25 @@ const addInfoByCategory = (req, res) => {
   try {
     const { category, infoTitles, infoDescriptions } = req.body;
 
-    // if (!category) {
-    //   return res.status(400).json({ error: "Category is required" });
-    // }
+    // Validate inputs
+    if (!category) {
+      return res.status(400).json({ error: "Category is required" });
+    }
 
-    // if (!infoTitles || !infoDescriptions) {
-    //   return res.status(400).json({ error: "infoTitles and infoDescriptions are required" });
-    // }
+    if (typeof infoTitles !== 'string' || typeof infoDescriptions !== 'string') {
+      return res.status(400).json({ error: "infoTitles and infoDescriptions must be strings" });
+    }
 
+    // Split the infoTitles and infoDescriptions
     const infoTitlesArray = infoTitles.split(',');
     const infoDescriptionsArray = infoDescriptions.split(',');
 
+    // Ensure both arrays have the same length
     if (infoTitlesArray.length !== infoDescriptionsArray.length) {
       return res.status(400).json({ error: "infoTitles and infoDescriptions must have the same number of items" });
     }
 
+    // Fetch the event ID
     db.query('SELECT id FROM upcomingevents WHERE category = ?', [category], (err, results) => {
       if (err) {
         console.error("Error fetching event ID:", err);
@@ -367,19 +371,21 @@ const addInfoByCategory = (req, res) => {
       }
 
       if (results.length === 0) {
-        return res.status(404).json({ error: "Please provide the event details for this category." });
+        return res.status(404).json({ error: "No event found for this category." });
       }
 
       const eventId = results[0].id;
 
+      // Prepare data for insertion
       const infoData = infoTitlesArray.map((title, index) => [
         eventId,
         title,
         infoDescriptionsArray[index],
-        category // Add the category to the array
+        category
       ]);
 
-      db.query('INSERT INTO event_inforamtion (event_id, infoTitle, infoDescription, category) VALUES ?', [infoData], (err, result) => {
+      // Insert the information into the database
+      db.query('INSERT INTO event_information (event_id, infoTitle, infoDescription, category) VALUES ?', [infoData], (err, result) => {
         if (err) {
           console.error("Error inserting info:", err);
           return res.status(500).json({ error: "Internal Server Error" });
@@ -392,6 +398,7 @@ const addInfoByCategory = (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 function getAlleventinformationdataData(req, res) {
   try {
     db.query('SELECT * FROM event_inforamtion', (err, results) => {
