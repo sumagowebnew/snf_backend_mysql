@@ -5,9 +5,10 @@ const {
   createupcomingeventsRecord,
   updateupcomingeventsRecord,
   deleteupcomingeventsRecord,
-  addImagesByCategory,deleteImageById,updateImageById,
-  upload,
-  getAllImagesData
+  addImagesByCategory, deleteImageById, updateImageById, getAlleventinformationdataData, deleteeventinformationById
+  , upload,
+  getAllImagesData,
+  addInfoByCategory, updateeventInfoById
 } = require("../controllers/upcomingeventsControler");
 const verifyToken = require("../JWT/auth");
 
@@ -30,7 +31,7 @@ router.get("/get", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-router.get("/getAllImagesData",async (req, res) => {
+router.get("/getAllImagesData", async (req, res) => {
   try {
     await getAllImagesData(req, res);
   } catch (error) {
@@ -44,7 +45,7 @@ router.post(
 
   upload.fields([
     { name: "mainImage", maxCount: 1 },
-  
+
   ]),
   [
     body("ProjectTitle").notEmpty().withMessage("ProjectTitle cannot be empty"),
@@ -80,7 +81,7 @@ router.put(
 );
 router.put(
   "/putImages/:id",
-  
+
   upload.fields([
     { name: "images", maxCount: 5 },
   ]),
@@ -103,7 +104,7 @@ router.delete("/delete/:id", verifyToken, async (req, res) => {
   }
 });
 
-router.delete("/deleteImages/:id",  async (req, res) => {
+router.delete("/deleteImages/:id", async (req, res) => {
   try {
     await deleteImageById(req, res);
   } catch (error) {
@@ -131,5 +132,49 @@ router.post('/addImagesByCategory',
   }
 );
 
+router.post('/addInfoByCategory',
 
+  [
+    body("category").notEmpty().withMessage("ProjectTitle cannot be empty"),
+    body("infoTitles").notEmpty().withMessage("infoTitles cannot be empty"),
+    body("infoDescriptions").notEmpty().withMessage("infoDescriptions cannot be empty"),
+  ],
+  async (req, res) => {
+    try {
+      await addInfoByCategory(req, res);
+    } catch (error) {
+      console.error("Error in addImagesByCategory:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+);
+router.get("/getAlleventinfoData", async (req, res) => {
+  try {
+    await getAlleventinformationdataData(req, res);
+  } catch (error) {
+    console.error("Error in getupcomingeventsRecord:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+router.delete("/deleteeventinfo/:id", async (req, res) => {
+  try {
+    await deleteeventinformationById(req, res);
+  } catch (error) {
+    console.error("Error in deleteupcomingeventsRecord:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+router.put(
+  "/eventInfo/:id",
+
+ 
+  async (req, res) => {
+    try {
+      await updateeventInfoById(req, res);
+    } catch (error) {
+      console.error("Error in updateeventInfoById:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+);
 module.exports = router;

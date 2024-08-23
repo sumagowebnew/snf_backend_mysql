@@ -2,7 +2,7 @@ const db = require('../../db');
 
 function getAllRecords(callback) {
     try {
-        db.query('SELECT * FROM wellwisher', callback);
+        db.query('SELECT * FROM Wellwisher', callback);
     } catch (error) {
         callback(error, null);
     }
@@ -10,7 +10,7 @@ function getAllRecords(callback) {
 
 function createRecord(recordData, callback) {
     try {
-        db.query('INSERT INTO wellwisher SET ?', recordData, callback);
+        db.query('INSERT INTO Wellwisher SET ?', recordData, callback);
     } catch (error) {
         callback(error, null);
     }
@@ -19,7 +19,7 @@ function createRecord(recordData, callback) {
 
 function updateRecord(id, recordData, callback) {
     try {
-        db.query('UPDATE wellwisher SET ? WHERE id = ?', [recordData, id], callback);
+        db.query('UPDATE Wellwisher SET ? WHERE id = ?', [recordData, id], callback);
     } catch (error) {
         callback(error, null);
     }
@@ -27,7 +27,7 @@ function updateRecord(id, recordData, callback) {
 
 function deleteRecord(id, callback) {
     try {
-        db.query('DELETE FROM wellwisher WHERE id = ?', id, callback);
+        db.query('DELETE FROM Wellwisher WHERE id = ?', id, callback);
     } catch (error) {
         callback(error, null);
     }

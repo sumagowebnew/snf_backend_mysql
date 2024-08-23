@@ -1,10 +1,10 @@
 const express = require("express");
 const { body } = require("express-validator");
 const {
-  getwellwishersRecord,
-  createwellwishersRecord,
-  updatewellwishersRecord,
-  deletewellwishersRecord,
+  getwellwisherRecord,
+  createwellwisherRecord,
+  updatewellwisherRecord,
+  deletewellwisherRecord,
 } = require("../controllers/wellwishersController");
 const multer = require("multer");
 const { upload } = require("../controllers/wellwishersController");
@@ -14,17 +14,17 @@ const router = express.Router();
 
 router.get("/find", verifyToken, async (req, res) => {
     try {
-        await getwellwishersRecord(req, res);
+        await getwellwisherRecord(req, res);
     } catch (error) {
-        console.error("Error in getwellwishersRecord:", error);
+        console.error("Error in getwellwisherRecord:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });
 router.get("/get", async (req, res) => {
     try {
-        await getwellwishersRecord(req, res);
+        await getwellwisherRecord(req, res);
     } catch (error) {
-        console.error("Error in getwellwishersRecord:", error);
+        console.error("Error in getwellwisherRecord:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });
@@ -36,9 +36,9 @@ router.post('/post', verifyToken,
           ],
     async (req, res) => {
         try {
-            await createwellwishersRecord(req, res);
+            await createwellwisherRecord(req, res);
         } catch (error) {
-            console.error("Error in createwellwishersRecord:", error);
+            console.error("Error in createwellwisherRecord:", error);
             res.status(500).json({ error: "Internal server error" });
         }
     }
@@ -49,9 +49,9 @@ router.put("/put/:id", verifyToken,
     upload.fields([{ name: 'imageUrl', maxCount: 1 }]),
     async (req, res) => {
         try {
-            await updatewellwishersRecord(req, res);
+            await updatewellwisherRecord(req, res);
         } catch (error) {
-            console.error("Error in updatewellwishersRecord:", error);
+            console.error("Error in updatewellwisherRecord:", error);
             res.status(500).json({ error: "Internal server error" });
         }
     }
@@ -59,9 +59,9 @@ router.put("/put/:id", verifyToken,
 
 router.delete("/delete/:id", verifyToken, async (req, res) => {
     try {
-        await deletewellwishersRecord(req, res);
+        await deletewellwisherRecord(req, res);
     } catch (error) {
-        console.error("Error in deletewellwishersRecord:", error);
+        console.error("Error in deletewellwisherRecord:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });

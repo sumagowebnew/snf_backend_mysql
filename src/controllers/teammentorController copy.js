@@ -2,7 +2,7 @@
 const { validationResult } = require("express-validator");
 const path = require("path");
 const fs = require("fs");
-const recordModel = require("../models/wellwishersModel");
+const recordModel = require("../models/teammentorModel");
 const multer = require("multer");
 const env = require("dotenv").config();
 
@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-function getwellwisherRecord(req, res) {
+function getteammentorRecord(req, res) {
   try {
     recordModel.getAllRecords((err, results) => {
       if (err) {
@@ -46,12 +46,12 @@ function getwellwisherRecord(req, res) {
       res.json(modifiedResults);
     });
   } catch (error) {
-    console.error("Error in getwellwisherRecord:", error);
+    console.error("Error in getteammentorRecord:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-function createwellwisherRecord(req, res) {
+function createteammentorRecord(req, res) {
   try {
     const recordData = req.body;
     const imgFile = req.files["imageUrl"][0]; 
@@ -67,12 +67,12 @@ function createwellwisherRecord(req, res) {
         .json({ message: "Record created successfully", result: recordData });
     });
   } catch (error) {
-    console.error("Error in createwellwisherRecord:", error);
+    console.error("Error in createteammentorRecord:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-function updatewellwisherRecord(req, res) {
+function updateteammentorRecord(req, res) {
   try {
     const { id } = req.params;
     const recordData = req.body;
@@ -91,12 +91,12 @@ function updatewellwisherRecord(req, res) {
       res.json({ message: "Record updated successfully" });
     });
   } catch (error) {
-    console.error("Error in updatewellwisherRecord:", error);
+    console.error("Error in updateteammentorRecord:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-function deletewellwisherRecord(req, res) {
+function deleteteammentorRecord(req, res) {
   try {
     const { id } = req.params;
     recordModel.deleteRecord(id, (err, result) => {
@@ -107,15 +107,15 @@ function deletewellwisherRecord(req, res) {
       res.send("Record deleted successfully");
     });
   } catch (error) {
-    console.error("Error in deletewellwisherRecord:", error);
+    console.error("Error in deleteteammentorRecord:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
 module.exports = {
-  getwellwisherRecord,
-  createwellwisherRecord,
-  updatewellwisherRecord,
-  deletewellwisherRecord,
+  getteammentorRecord,
+  createteammentorRecord,
+  updateteammentorRecord,
+  deleteteammentorRecord,
   upload,
 };
