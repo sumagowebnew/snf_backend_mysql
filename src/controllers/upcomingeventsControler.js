@@ -349,9 +349,9 @@ const addInfoByCategory = (req, res) => {
     //   return res.status(400).json({ error: "Category is required" });
     // }
 
-    if (!infoTitles || !infoDescriptions) {
-      return res.status(400).json({ error: "infoTitles and infoDescriptions are required" });
-    }
+    // if (!infoTitles || !infoDescriptions) {
+    //   return res.status(400).json({ error: "infoTitles and infoDescriptions are required" });
+    // }
 
     const infoTitlesArray = infoTitles.split(',');
     const infoDescriptionsArray = infoDescriptions.split(',');
