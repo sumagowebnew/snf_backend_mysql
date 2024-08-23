@@ -99,7 +99,7 @@ function getupcomingeventsRecord(req, res) {
                 })),
                 eventInformation: eventInfo.map(info => ({
                   infoTitle: info.infoTitle,
-                  infoDescription: info.infoDescription,
+                  infoDescriptions: info.infoDescriptions,
                   category: info.category
                 }))
               };
@@ -459,7 +459,7 @@ const updateeventInfoById = (req, res) => {
     ]);
 
     // Perform the update operation
-    db.query('UPDATE event_inforamtion SET infoTitle = ?, infoDescription = ? WHERE id = ?', [updateData[0][0], updateData[0][1], id], (err, result) => {
+    db.query('UPDATE event_inforamtion SET infoTitle = ?, infoDescriptions = ? WHERE id = ?', [updateData[0][0], updateData[0][1], id], (err, result) => {
       if (err) {
         console.error("Error updating info:", err);
         return res.status(500).json({ error: "Internal Server Error" });
