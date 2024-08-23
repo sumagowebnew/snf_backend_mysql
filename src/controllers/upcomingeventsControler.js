@@ -346,14 +346,14 @@ const addInfoByCategory = (req, res) => {
     const { category, infoTitles, infoDescriptions } = req.body;
 
     // Check if the category is provided
-    if (!category) {
-      return res.status(400).json({ error: "Category is required" });
-    }
+    // if (!category) {
+    //   return res.status(400).json({ error: "Category is required" });
+    // }
 
-    // Check if both infoTitle and infoDescription are provided
-    if (!infoTitles || !infoDescriptions) {
-      return res.status(400).json({ error: "infoTitle and infoDescription are required" });
-    }
+    // // Check if both infoTitle and infoDescription are provided
+    // if (!infoTitles || !infoDescriptions) {
+    //   return res.status(400).json({ error: "infoTitle and infoDescription are required" });
+    // }
 
     // Fetch the event ID for the given category
     db.query('SELECT id FROM upcomingevents WHERE category = ?', [category], (err, results) => {
