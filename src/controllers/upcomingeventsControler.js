@@ -345,9 +345,9 @@ const addInfoByCategory = (req, res) => {
   try {
     const { category, infoTitles, infoDescriptions } = req.body;
 
-    if (!category) {
-      return res.status(400).json({ error: "Category is required" });
-    }
+    // if (!category) {
+    //   return res.status(400).json({ error: "Category is required" });
+    // }
 
     if (!infoTitles || !infoDescriptions) {
       return res.status(400).json({ error: "infoTitles and infoDescriptions are required" });
