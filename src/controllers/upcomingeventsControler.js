@@ -341,60 +341,9 @@ const updateImageById = (req, res) => {
   }
 };
 // accardian info
-// const addInfoByCategory = (req, res) => {
-//   try {
-//     const { category, infoTitles, infoDescriptions } = req.body;
-
-//     if (!category) {
-//       return res.status(400).json({ error: "Category is required" });
-//     }
-
-//     if (!infoTitles || !infoDescriptions) {
-//       return res.status(400).json({ error: "infoTitles and infoDescriptions are required" });
-//     }
-
-//     const infoTitlesArray = infoTitles.split(',');
-//     const infoDescriptionsArray = infoDescriptions.split(',');
-
-//     if (infoTitlesArray.length !== infoDescriptionsArray.length) {
-//       return res.status(400).json({ error: "infoTitles and infoDescriptions must have the same number of items" });
-//     }
-
-//     db.query('SELECT id FROM upcomingevents WHERE category = ?', [category], (err, results) => {
-//       if (err) {
-//         console.error("Error fetching event ID:", err);
-//         return res.status(500).json({ error: "Internal Server Error" });
-//       }
-
-//       if (results.length === 0) {
-//         return res.status(404).json({ error: "Please provide the event details for this category." });
-//       }
-
-//       const eventId = results[0].id;
-
-//       const infoData = infoTitlesArray.map((title, index) => [
-//         eventId,
-//         title,
-//         infoDescriptionsArray[index],
-//         category // Add the category to the array
-//       ]);
-
-//       db.query('INSERT INTO event_inforamtion (event_id, infoTitle, infoDescription, category) VALUES ?', [infoData], (err, result) => {
-//         if (err) {
-//           console.error("Error inserting info:", err);
-//           return res.status(500).json({ error: "Internal Server Error" });
-//         }
-//         res.status(201).json({ message: "Info added successfully", eventId: eventId });
-//       });
-//     });
-//   } catch (error) {
-//     console.error("Error in addInfoByCategory:", error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
 const addInfoByCategory = (req, res) => {
   try {
-    const { category, infoTitle, infoDescription } = req.body;
+    const { category, infoTitles, infoDescriptions } = req.body;
 
     // Check if the category is provided
     if (!category) {
@@ -402,7 +351,7 @@ const addInfoByCategory = (req, res) => {
     }
 
     // Check if both infoTitle and infoDescription are provided
-    if (!infoTitle || !infoDescription) {
+    if (!infoTitles || !infoDescriptions) {
       return res.status(400).json({ error: "infoTitle and infoDescription are required" });
     }
 
@@ -420,8 +369,8 @@ const addInfoByCategory = (req, res) => {
       const eventId = results[0].id;
 
       // Insert the info into the database
-      db.query('INSERT INTO event_information (event_id, infoTitle, infoDescription, category) VALUES (?, ?, ?, ?)', 
-        [eventId, infoTitle, infoDescription, category], 
+      db.query('INSERT INTO event_inforamtion (event_id, infoTitle, infoDescription, category) VALUES (?, ?, ?, ?)', 
+        [eventId, infoTitles, infoDescriptions, category], 
         (err, result) => {
           if (err) {
             console.error("Error inserting info:", err);
@@ -448,8 +397,8 @@ function getAlleventinformationdataData(req, res) {
       const imagesData = results.map(image => ({
         id: image.id,
         eventId: image.event_id,
-        infoTitle: image.infoTitle,
-        infoDescription: image.infoDescription,
+        infoTitles: image.infoTitles,
+        infoDescriptions: image.infoDescriptions,
         category: image.category
 
       }));
