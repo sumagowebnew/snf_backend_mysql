@@ -434,45 +434,33 @@ const deleteeventinformationById = (req, res) => {
 };
 const updateeventInfoById = (req, res) => {
   const { id } = req.params; // Assuming the info id is passed as a URL parameter
-  const { infoTitles, infoDescriptions } = req.body; // Assuming you receive updated info titles and descriptions
+  const { infoTitles, infoDescriptions } = req.body; // Assuming you receive a single info title and description
 
   try {
-    // Ensure infoTitles and infoDescriptions are provided
+    // Ensure infoTitle and infoDescription are provided
     if (!infoTitles || !infoDescriptions) {
-      return res.status(400).json({ error: "Info titles and descriptions are required" });
+      return res.status(400).json({ error: "Info title and description are required" });
     }
 
-    // Split titles and descriptions into arrays
-    const infoTitlesArray = infoTitles.split(',');
-    const infoDescriptionsArray = infoDescriptions.split(',');
+    // Perform the update operation for the specific id
+    db.query(
+      'UPDATE event_inforamtion SET infoTitles = ?, infoDescriptions = ? WHERE id = ?',
+      [infoTitles, infoDescriptions, id],
+      (err, result) => {
+        if (err) {
+          console.error("Error updating info:", err);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
 
-    // Ensure the number of titles matches the number of descriptions
-    if (infoTitlesArray.length !== infoDescriptionsArray.length) {
-      return res.status(400).json({ error: "Info titles and info descriptions must have the same number of items" });
-    }
+        if (result.affectedRows === 0) {
+          return res.status(404).json({ error: "Info not found" });
+        }
 
-    // Prepare data for updating
-    const updateData = infoTitlesArray.map((title, index) => [
-      title,
-      infoDescriptionsArray[index],
-      id // Assuming you want to update based on the ID
-    ]);
-
-    // Perform the update operation
-    db.query('UPDATE event_inforamtion SET infoTitle = ?, infoDescriptions = ? WHERE id = ?', [updateData[0][0], updateData[0][1], id], (err, result) => {
-      if (err) {
-        console.error("Error updating info:", err);
-        return res.status(500).json({ error: "Internal Server Error" });
+        res.status(200).json({ message: "Info updated successfully", id: id });
       }
-
-      if (result.affectedRows === 0) {
-        return res.status(404).json({ error: "Info not found" });
-      }
-
-      res.status(200).json({ message: "Info updated successfully", id: id });
-    });
+    );
   } catch (error) {
-    console.error("Error in updateInfoById:", error);
+    console.error("Error in updateeventInfoById:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
