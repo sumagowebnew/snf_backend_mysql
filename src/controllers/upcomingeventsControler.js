@@ -230,7 +230,7 @@ const addImagesByCategory = (req, res) => {
       }
 
       if (results.length === 0) {
-        return res.status(404).json({ error: "Event not found" });
+        return res.status(404).json({ error: "Please provide the event details for this category." });
       }
 
       const eventId = results[0].id;
@@ -367,7 +367,7 @@ const addInfoByCategory = (req, res) => {
       }
 
       if (results.length === 0) {
-        return res.status(404).json({ error: "Event not found" });
+        return res.status(404).json({ error: "Please provide the event details for this category." });
       }
 
       const eventId = results[0].id;
