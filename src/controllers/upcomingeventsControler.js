@@ -369,7 +369,7 @@ const addInfoByCategory = (req, res) => {
       const eventId = results[0].id;
 
       // Insert the info into the database
-      db.query('INSERT INTO event_inforamtion (event_id, infoTitle, infoDescription, category) VALUES (?, ?, ?, ?)', 
+      db.query('INSERT INTO event_inforamtion (event_id, infoTitles, infoDescription, category) VALUES (?, ?, ?, ?)', 
         [eventId, infoTitles, infoDescriptions, category], 
         (err, result) => {
           if (err) {
