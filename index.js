@@ -60,7 +60,8 @@ try {
 
   const home4cardsRoute = require("./src/routes/home4cardsRoute")
   app.use("/home4cards", home4cardsRoute)
-
+  const wellwisherRoute = require("./src/routes/wellwisherRoute")
+  app.use("/wellwishers", wellwisherRoute)
   
   const homemediaRoute = require("./src/routes/homeMediaRoute")
   app.use("/homemedia", homemediaRoute)
