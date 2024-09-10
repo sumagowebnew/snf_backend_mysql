@@ -38,6 +38,7 @@ function getteammentorRecord(req, res) {
         return {
           id: item.id,
           name: item.name,
+          position:item.position,
           imageUrl: `${process.env.serverURL}${item.imageUrl}`,
         };
       });

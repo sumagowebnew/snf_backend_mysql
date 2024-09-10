@@ -49,6 +49,12 @@ try {
   const nriparticipantRoute = require("./src/routes/nriparticipantRoute")
   app.use("/NRI_Participants", nriparticipantRoute)
 
+  const wellwisherRoute = require("./src/routes/wellwisherRoute")
+  app.use("/wellwishers", wellwisherRoute)
+
+  const nationwidesupport = require("./src/routes/nationwidesupport")
+  app.use("/nationwidesupport", nationwidesupport)
+
   const stateparticipantRoute = require("./src/routes/stateparticipantRoute")
   app.use("/stateparticipant", stateparticipantRoute)
 
@@ -60,8 +66,7 @@ try {
 
   const home4cardsRoute = require("./src/routes/home4cardsRoute")
   app.use("/home4cards", home4cardsRoute)
-  const wellwisherRoute = require("./src/routes/wellwisherRoute")
-  app.use("/wellwishers", wellwisherRoute)
+
   
   const homemediaRoute = require("./src/routes/homeMediaRoute")
   app.use("/homemedia", homemediaRoute)

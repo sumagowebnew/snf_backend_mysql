@@ -2,7 +2,7 @@
 const { validationResult } = require("express-validator");
 const path = require("path");
 const fs = require("fs");
-const recordModel = require("../models/founderparticipantsModel");
+const recordModel = require("../models/nationwidesupport");
 const multer = require("multer");
 const env = require("dotenv").config();
 
@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-function getteamfounderparticipantRecord(req, res) {
+function getwellwisherRecord(req, res) {
   try {
     recordModel.getAllRecords((err, results) => {
       if (err) {
@@ -47,12 +47,12 @@ function getteamfounderparticipantRecord(req, res) {
       res.json(modifiedResults);
     });
   } catch (error) {
-    console.error("Error in getteamfounderparticipantRecord:", error);
+    console.error("Error in getwellwisherRecord:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-function createteamfounderparticipantRecord(req, res) {
+function createwellwisherRecord(req, res) {
   try {
     const recordData = req.body;
     const imgFile = req.files["imageUrl"][0]; 
@@ -68,12 +68,12 @@ function createteamfounderparticipantRecord(req, res) {
         .json({ message: "Record created successfully", result: recordData });
     });
   } catch (error) {
-    console.error("Error in createteamfounderparticipantRecord:", error);
+    console.error("Error in createwellwisherRecord:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-function updateteamfounderparticipantRecord(req, res) {
+function updatewellwisherRecord(req, res) {
   try {
     const { id } = req.params;
     const recordData = req.body;
@@ -92,12 +92,12 @@ function updateteamfounderparticipantRecord(req, res) {
       res.json({ message: "Record updated successfully" });
     });
   } catch (error) {
-    console.error("Error in updateteamfounderparticipantRecord:", error);
+    console.error("Error in updatewellwisherRecord:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-function deleteteamfounderparticipantRecord(req, res) {
+function deletewellwisherRecord(req, res) {
   try {
     const { id } = req.params;
     recordModel.deleteRecord(id, (err, result) => {
@@ -108,15 +108,15 @@ function deleteteamfounderparticipantRecord(req, res) {
       res.send("Record deleted successfully");
     });
   } catch (error) {
-    console.error("Error in deleteteamfounderparticipantRecord:", error);
+    console.error("Error in deletewellwisherRecord:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
 module.exports = {
-  getteamfounderparticipantRecord,
-  createteamfounderparticipantRecord,
-  updateteamfounderparticipantRecord,
-  deleteteamfounderparticipantRecord,
+  getwellwisherRecord,
+  createwellwisherRecord,
+  updatewellwisherRecord,
+  deletewellwisherRecord,
   upload,
 };

@@ -99,7 +99,7 @@ function getupcomingeventsRecord(req, res) {
                 })),
                 eventInformation: eventInfo.map(info => ({
                   infoTitle: info.infoTitle,
-                  infoDescriptions: info.infoDescriptions,
+                  infoDescription: info.infoDescription,
                   category: info.category
                 }))
               };
@@ -230,7 +230,7 @@ const addImagesByCategory = (req, res) => {
       }
 
       if (results.length === 0) {
-        return res.status(404).json({ error: "Please provide the event details for this category." });
+        return res.status(404).json({ error: "Event not found" });
       }
 
       const eventId = results[0].id;
@@ -345,17 +345,21 @@ const addInfoByCategory = (req, res) => {
   try {
     const { category, infoTitles, infoDescriptions } = req.body;
 
-    // Check if the category is provided
-    // if (!category) {
-    //   return res.status(400).json({ error: "Category is required" });
-    // }
+    if (!category) {
+      return res.status(400).json({ error: "Category is required" });
+    }
 
-    // // Check if both infoTitle and infoDescription are provided
-    // if (!infoTitles || !infoDescriptions) {
-    //   return res.status(400).json({ error: "infoTitle and infoDescription are required" });
-    // }
+    if (!infoTitles || !infoDescriptions) {
+      return res.status(400).json({ error: "infoTitles and infoDescriptions are required" });
+    }
 
-    // Fetch the event ID for the given category
+    const infoTitlesArray = infoTitles.split(',');
+    const infoDescriptionsArray = infoDescriptions.split(',');
+
+    if (infoTitlesArray.length !== infoDescriptionsArray.length) {
+      return res.status(400).json({ error: "infoTitles and infoDescriptions must have the same number of items" });
+    }
+
     db.query('SELECT id FROM upcomingevents WHERE category = ?', [category], (err, results) => {
       if (err) {
         console.error("Error fetching event ID:", err);
@@ -363,29 +367,31 @@ const addInfoByCategory = (req, res) => {
       }
 
       if (results.length === 0) {
-        return res.status(404).json({ error: "No event found for this category." });
+        return res.status(404).json({ error: "Event not found" });
       }
 
       const eventId = results[0].id;
 
-      // Insert the info into the database
-      db.query('INSERT INTO event_inforamtion (event_id, infoTitles, infoDescriptions, category) VALUES (?, ?, ?, ?)', 
-        [eventId, infoTitles, infoDescriptions, category], 
-        (err, result) => {
-          if (err) {
-            console.error("Error inserting info:", err);
-            return res.status(500).json({ error: "Internal Server Error" });
-          }
-          res.status(201).json({ message: "Info added successfully", eventId: eventId });
+      const infoData = infoTitlesArray.map((title, index) => [
+        eventId,
+        title,
+        infoDescriptionsArray[index],
+        category // Add the category to the array
+      ]);
+
+      db.query('INSERT INTO event_inforamtion (event_id, infoTitle, infoDescription, category) VALUES ?', [infoData], (err, result) => {
+        if (err) {
+          console.error("Error inserting info:", err);
+          return res.status(500).json({ error: "Internal Server Error" });
         }
-      );
+        res.status(201).json({ message: "Info added successfully", eventId: eventId });
+      });
     });
   } catch (error) {
     console.error("Error in addInfoByCategory:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 function getAlleventinformationdataData(req, res) {
   try {
     db.query('SELECT * FROM event_inforamtion', (err, results) => {
@@ -397,8 +403,8 @@ function getAlleventinformationdataData(req, res) {
       const imagesData = results.map(image => ({
         id: image.id,
         eventId: image.event_id,
-        infoTitles: image.infoTitles,
-        infoDescriptions: image.infoDescriptions,
+        infoTitle: image.infoTitle,
+        infoDescription: image.infoDescription,
         category: image.category
 
       }));
@@ -434,33 +440,45 @@ const deleteeventinformationById = (req, res) => {
 };
 const updateeventInfoById = (req, res) => {
   const { id } = req.params; // Assuming the info id is passed as a URL parameter
-  const { infoTitles, infoDescriptions } = req.body; // Assuming you receive a single info title and description
+  const { infoTitles, infoDescriptions } = req.body; // Assuming you receive updated info titles and descriptions
 
   try {
-    // Ensure infoTitle and infoDescription are provided
+    // Ensure infoTitles and infoDescriptions are provided
     if (!infoTitles || !infoDescriptions) {
-      return res.status(400).json({ error: "Info title and description are required" });
+      return res.status(400).json({ error: "Info titles and descriptions are required" });
     }
 
-    // Perform the update operation for the specific id
-    db.query(
-      'UPDATE event_inforamtion SET infoTitles = ?, infoDescriptions = ? WHERE id = ?',
-      [infoTitles, infoDescriptions, id],
-      (err, result) => {
-        if (err) {
-          console.error("Error updating info:", err);
-          return res.status(500).json({ error: "Internal Server Error" });
-        }
+    // Split titles and descriptions into arrays
+    const infoTitlesArray = infoTitles.split(',');
+    const infoDescriptionsArray = infoDescriptions.split(',');
 
-        if (result.affectedRows === 0) {
-          return res.status(404).json({ error: "Info not found" });
-        }
+    // Ensure the number of titles matches the number of descriptions
+    if (infoTitlesArray.length !== infoDescriptionsArray.length) {
+      return res.status(400).json({ error: "Info titles and info descriptions must have the same number of items" });
+    }
 
-        res.status(200).json({ message: "Info updated successfully", id: id });
+    // Prepare data for updating
+    const updateData = infoTitlesArray.map((title, index) => [
+      title,
+      infoDescriptionsArray[index],
+      id // Assuming you want to update based on the ID
+    ]);
+
+    // Perform the update operation
+    db.query('UPDATE event_inforamtion SET infoTitle = ?, infoDescription = ? WHERE id = ?', [updateData[0][0], updateData[0][1], id], (err, result) => {
+      if (err) {
+        console.error("Error updating info:", err);
+        return res.status(500).json({ error: "Internal Server Error" });
       }
-    );
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: "Info not found" });
+      }
+
+      res.status(200).json({ message: "Info updated successfully", id: id });
+    });
   } catch (error) {
-    console.error("Error in updateeventInfoById:", error);
+    console.error("Error in updateInfoById:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
