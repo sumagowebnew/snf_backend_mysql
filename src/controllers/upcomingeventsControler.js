@@ -98,6 +98,7 @@ function getupcomingeventsRecord(req, res) {
                   imageTitle: image.imageTitles,
                 })),
                 eventInformation: eventInfo.map(info => ({
+                  
                   infoTitle: info.infoTitle,
                   infoDescription: info.infoDescription,
                   category: info.category
