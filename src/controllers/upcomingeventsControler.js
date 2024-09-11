@@ -99,8 +99,8 @@ function getupcomingeventsRecord(req, res) {
                 })),
                 eventInformation: eventInfo.map(info => ({
 
-                  infoTitles: info.infoTitle,
-                  infoDescriptions: info.infoDescription,
+                  infoTitles: info.infoTitles,
+                  infoDescriptions: info.infoDescriptions,
                   category: info.category
                 }))
               };
