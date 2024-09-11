@@ -99,8 +99,8 @@ function getupcomingeventsRecord(req, res) {
                 })),
                 eventInformation: eventInfo.map(info => ({
                   
-                  infoTitle: info.infoTitle,
-                  infoDescription: info.infoDescription,
+                  infoTitles: info.infoTitles,
+                  infoDescriptions: info.infoDescriptions,
                   category: info.category
                 }))
               };
@@ -380,7 +380,7 @@ const addInfoByCategory = (req, res) => {
         category // Add the category to the array
       ]);
 
-      db.query('INSERT INTO event_inforamtion (event_id, infoTitle, infoDescription, category) VALUES ?', [infoData], (err, result) => {
+      db.query('INSERT INTO event_inforamtion (event_id, infoTitle, infoDescriptions, category) VALUES ?', [infoData], (err, result) => {
         if (err) {
           console.error("Error inserting info:", err);
           return res.status(500).json({ error: "Internal Server Error" });
@@ -404,8 +404,8 @@ function getAlleventinformationdataData(req, res) {
       const imagesData = results.map(image => ({
         id: image.id,
         eventId: image.event_id,
-        infoTitle: image.infoTitle,
-        infoDescription: image.infoDescription,
+        infoTitles: image.infoTitles,
+        infoDescriptions: image.infoDescriptions,
         category: image.category
 
       }));
@@ -466,7 +466,7 @@ const updateeventInfoById = (req, res) => {
     ]);
 
     // Perform the update operation
-    db.query('UPDATE event_inforamtion SET infoTitle = ?, infoDescription = ? WHERE id = ?', [updateData[0][0], updateData[0][1], id], (err, result) => {
+    db.query('UPDATE event_inforamtion SET infoTitles = ?, infoDescriptions = ? WHERE id = ?', [updateData[0][0], updateData[0][1], id], (err, result) => {
       if (err) {
         console.error("Error updating info:", err);
         return res.status(500).json({ error: "Internal Server Error" });
