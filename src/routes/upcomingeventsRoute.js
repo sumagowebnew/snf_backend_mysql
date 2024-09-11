@@ -129,6 +129,8 @@ router.post('/addImagesByCategory',
       console.error("Error in addImagesByCategory:", error);
       res.status(500).json({ error: "Internal server error" });
     }
+
+    
   }
 );
 
