@@ -5,6 +5,7 @@ function getAllRecords(callback) {
         db.query('SELECT * FROM wellwishers', callback);
     } catch (error) {
         callback(error, null);
+        
     }
 }
 
